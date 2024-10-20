@@ -10,7 +10,7 @@ This example command will start the server on port `8080`.
 
 ```shell
 docker run --pull always --rm --name searxng \
-    -p 8080:80 \
+    -p 127.0.0.1:8080:80 \
     -e SECRET_KEY="!@#$%^&*()_+" \
     -d \
     nedix/searxng
