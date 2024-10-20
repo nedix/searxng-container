@@ -1,5 +1,3 @@
-# [⚠️ Not ready for production ⚠️](https://github.com/nedix/searxng-uwsgi-docker/issues/30)
-
 # [searxng-container](https://github.com/nedix/searxng-container)
 
 Metasearch-engine to combine search results from multiple sources.
