@@ -4,6 +4,7 @@ setup:
 up: PORT = 8080
 up:
 	@docker run --rm --name searxng \
+		--env-file=".env" \
 		-p 127.0.0.1:$(PORT):80 \
 		-d \
 		searxng

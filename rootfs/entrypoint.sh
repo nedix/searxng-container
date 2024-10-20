@@ -2,6 +2,7 @@
 
 set -e
 
+: ${SECRET_KEY}
 : ${UWSGI_THREADS:="4"}
 : ${UWSGI_WORKERS:="%k"}
 
@@ -15,6 +16,8 @@ sed -E \
 sed -E \
     -e "s|(pythonpath =).*|\1 ${PYTHON_PATH}|" \
     -i /etc/searxng/uwsgi.ini
+
+export SEARXNG_SECRET="$SECRET_KEY"
 
 exec uwsgi --http-socket 0.0.0.0:80 \
     --ini /usr/local/searxng/dockerfiles/uwsgi.ini \
