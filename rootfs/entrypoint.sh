@@ -2,13 +2,10 @@
 
 set -e
 
-: ${SEARXNG_SETTINGS_PATH:="/etc/searxng/settings.yml"}
 : ${UWSGI_THREADS:="4"}
 : ${UWSGI_WORKERS:="%k"}
 
 PYTHON_PATH="$(python -c 'import site; print(site.getsitepackages()[0])')"
-
-export SEARXNG_SETTINGS_PATH
 
 sed -E \
     -e "s|(threads =).*|\1 ${UWSGI_THREADS}|" \
