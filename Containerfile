@@ -22,8 +22,7 @@ COPY --link rootfs /
 
 RUN chown -R nobody \
         /usr/local/searxng \
-        /var/log/uwsgi/ \
-    && chmod +x /entrypoint.sh
+        /var/log/uwsgi/
 
 EXPOSE 80
 
