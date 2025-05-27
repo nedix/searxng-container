@@ -1,14 +1,23 @@
 setup:
+	@test -e .env || cp .env.example .env
 	@docker build --progress plain -f Containerfile -t searxng .
 
-up: PORT = 8080
+destroy:
+	-@docker rm -fv searxng
+
+up: HTTP_PORT = "80"
 up:
-	@docker run --rm --name searxng \
-		--env-file=".env" \
-		-p 127.0.0.1:$(PORT):80 \
-		-d \
+	@docker run --rm -d --name searxng \
+		--env-file .env \
+		-p 127.0.0.1:$(HTTP_PORT):80 \
 		searxng
+	@docker logs -f searxng
 
 down:
-	@-docker rm -fv searxng
-	@-docker rm -fv searxng-test
+	-@docker stop searxng
+
+shell:
+	@docker exec -it searxng /bin/sh
+
+test:
+	@$(CURDIR)/tests/index.sh
