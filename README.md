@@ -2,7 +2,9 @@
 
 Metasearch-engine to combine search results from multiple sources.
 
+
 ## Usage
+
 
 ### 1. Start the container
 
@@ -14,6 +16,7 @@ docker run --rm --pull always --name searxng \
     -e SECRET_KEY="^&*()_+" \
     nedix/searxng
 ```
+
 
 ### 2. Start searching
 
