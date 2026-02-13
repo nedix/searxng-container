@@ -11,9 +11,12 @@ Metasearch-engine to combine search results from multiple sources.
 This example command will start the container on port `80`.
 
 ```shell
-docker run --rm --pull always --name searxng \
-    -p 127.0.0.1:80:80 \
+docker run \
+    --name searxng \
+    --pull always \
+    --rm \
     -e SECRET_KEY="^&*()_+" \
+    -p 127.0.0.1:80:80 \
     nedix/searxng
 ```
 

@@ -7,9 +7,12 @@ destroy:
 
 up: HTTP_PORT = "80"
 up:
-	@docker run --rm -d --name searxng \
+	@docker run \
 		--env-file .env \
+		--name searxng \
+		--rm \
 		-p 127.0.0.1:$(HTTP_PORT):80 \
+		-d \
 		searxng
 	@docker logs -f searxng
 
