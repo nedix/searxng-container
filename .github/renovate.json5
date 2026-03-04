@@ -32,7 +32,7 @@
       matchStrings: ["ARG YQ_VERSION=(?<currentValue>.*?)\\n"],
       datasourceTemplate: "github-releases",
       packageNameTemplate: "mikefarah/yq",
-    }
+    },
   ],
   packageRules: [
     {
