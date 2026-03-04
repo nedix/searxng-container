@@ -10,28 +10,31 @@ server:
 
 ui:
   default_theme: simple
-  advanced_search: true
-  results_on_new_tab: true
-  infinite_scroll: true
+  search_on_category_select: true
   theme_args:
     simple_style: dark
 
-enabled_plugins:
-  - "Hostname replace"
-  - "Open Access DOI rewrite"
-  - "Search on category select"
-  - "Self Information"
-  - "Tracker URL remover"
-  - "Vim-like hotkeys"
-
-preferences:
-  lock:
-    - center_alignment
-    - doi_resolver
-    - image_proxy
-    - infinite_scroll
-    - method
-    - tor_check
+plugins:
+  searx.plugins.ahmia_filter.SXNGPlugin:
+    active: false
+  searx.plugins.calculator.SXNGPlugin:
+    active: false
+  searx.plugins.hash_plugin.SXNGPlugin:
+    active: false
+  searx.plugins.hostnames.SXNGPlugin:
+    active: false
+  searx.plugins.infinite_scroll.SXNGPlugin:
+    active: false
+  searx.plugins.oa_doi_rewrite.SXNGPlugin:
+    active: false
+  searx.plugins.self_info.SXNGPlugin:
+    active: false
+  searx.plugins.tor_check.SXNGPlugin:
+    active: false
+  searx.plugins.tracker_url_remover.SXNGPlugin:
+    active: true
+  searx.plugins.unit_converter.SXNGPlugin:
+    active: false
 
 search:
   autocomplete: qwant
@@ -39,313 +42,31 @@ search:
   default_lang: all
   formats:
     - html
-    - json
   safe_search: 2
 
 categories_as_tabs:
   general:
   images:
   videos:
-  map:
-  science:
-  files:
-
-default_doi_resolver: 'sci-hub.se'
 
 engines:
-  - name: 1337x
-    disabled: false
-  - name: 1x
-    disabled: true
-  - name: 9gag
-    disabled: true
-  - name: ahmia
-    disabled: true
-  - name: annas archive
-    disabled: false
-  - name: alexandria
-    disabled: true
-  - name: apk mirror
-    disabled: true
-  - name: apple app store
-    disabled: true
-  - name: apple maps
-    disabled: true
-  - name: arch linux wiki
-    disabled: true
-  - name: archive is
-    disabled: true
-  - name: artic
-    disabled: true
-  - name: arxiv
-    disabled: false
-  - name: askubuntu
-    disabled: true
-  - name: azlyrics
-    disabled: true
-  - name: bandcamp
-    disabled: true
   - name: bing
-    disabled: true
-  - name: bing images
     disabled: false
-  - name: bing news
-    disabled: true
-  - name: bing videos
-    disabled: false
-  - name: bitbucket
-    disabled: true
   - name: brave
-    disabled: true
-  - name: brave.news
-    disabled: true
-  - name: btdigg
-    disabled: true
-  - name: ccc-tv
-    disabled: true
-  - name: codeberg
-    disabled: true
-  - name: crossref
-    disabled: true
-  - name: curlie
-    disabled: true
-  - name: currency
-    disabled: true
-  - name: dailymotion
-    disabled: true
-  - name: ddg definitions
-    disabled: true
-  - name: deezer
-    disabled: true
-  - name: deviantart
     disabled: false
-  - name: dictzone
-    disabled: true
-  - name: docker hub
-    disabled: true
-  - name: duckduckgo
-    disabled: true
-  - name: duckduckgo images
-    disabled: true
-  - name: duckduckgo weather
-    disabled: true
-  - name: duden
-    disabled: true
-  - name: emojipedia
-    disabled: true
-  - name: erowid
-    disabled: true
-    categories: [science]
-  - name: etymonline
-    disabled: true
-  - name: fdroid
-    disabled: true
-  - name: flickr
-    disabled: true
-  - name: framalibre
-    disabled: true
-  - name: free software directory
-    disabled: true
-  - name: frinkiac
-    disabled: true
-  - name: genius
-    disabled: true
-  - name: gentoo
-    disabled: true
-  - name: github
-    disabled: true
-  - name: gitlab
-    disabled: true
-  - name: goo
-    disabled: true
-  - name: google
-    disabled: true
-  - name: google images
-    disabled: true
-  - name: google news
-    disabled: true
-  - name: google play apps
-    disabled: true
-  - name: google play movies
-    disabled: true
-  - name: google scholar
-    disabled: true
-  - name: google videos
-    disabled: true
-  - name: gpodder
-    disabled: true
-  - name: habrahabr
-    disabled: true
-  - name: hoogle
-    disabled: true
-  - name: imdb
-    disabled: true
-  - name: ina
-    disabled: true
-  - name: invidious
-    disabled: false
-    categories: [videos]
-  - name: jisho
-    disabled: true
-  - name: kickass
-    disabled: true
-  - name: lemmy comments
-    disabled: true
-  - name: lemmy communities
-    disabled: true
-  - name: lemmy posts
-    disabled: true
-  - name: lemmy users
-    disabled: true
-  - name: lib.rs
-    disabled: true
-  - name: library genesis
-    disabled: false
-  - name: library of congress
-    disabled: true
-  - name: lingva
-    disabled: true
-  - name: lobste.rs
-    disabled: true
-  - name: mankier
-    disabled: true
-  - name: mediathekviewweb
-    disabled: true
-  - name: metacpan
-    disabled: true
-  - name: mixcloud
-    disabled: true
-  - name: mojeek
-    disabled: true
-  - name: mymemory translated
-    disabled: true
-  - name: naver
-    disabled: true
-  - name: npm
-    disabled: true
-  - name: nyaa
-    disabled: true
-  - name: openairedatasets
-    disabled: true
-  - name: openairepublications
-    disabled: true
-  - name: openrepos
-    disabled: true
-  - name: openstreetmap
-    disabled: false
-  - name: openverse
-    disabled: true
-  - name: packagist
-    disabled: true
-  - name: pdbe
-    disabled: true
-  - name: peertube
-    disabled: false
-  - name: petalsearch
-    disabled: true
-  - name: petalsearch images
-    disabled: true
-  - name: photon
-    disabled: true
-  - name: piped.music
-    disabled: true
-  - name: piratebay
-    disabled: true
-  - name: pub.dev
-    disabled: true
-  - name: pubmed
-    disabled: false
-    timeout: 5.0
-  - name: pypi
-    disabled: true
-  - name: qwant
-    disabled: false
-  - name: qwant images
-    disabled: false
-  - name: qwant news
-    disabled: true
-  - name: qwant videos
-    disabled: true
-  - name: reddit
-    disabled: true
-    categories: [general]
-  - name: rubygems
-    disabled: true
-  - name: rumble
-    disabled: false
-  - name: searchcode code
-    disabled: true
-  - name: semantic scholar
-    disabled: false
-    timeout: 5.0
-  - name: sepiasearch
-    disabled: true
-  - name: seznam
-    disabled: true
-  - name: sjp.pwn
-    disabled: true
-  - name: solidtorrents
-    disabled: true
-  - name: soundcloud
-    disabled: true
-  - name: sourcehut
-    disabled: true
-  - name: stackoverflow
-    disabled: true
   - name: startpage
     disabled: false
-  - name: superuser
-    disabled: true
-  - name: tineye
-    disabled: true
-  - name: tokyotoshokan
-    disabled: true
-  - name: torch
-    disabled: true
-  - name: twitter
-    disabled: true
-  - name: unsplash
-    disabled: true
-  - name: vimeo
-    disabled: true
-  - name: wiby
-    disabled: true
-  - name: wikibooks
-    disabled: true
-  - name: wikidata
-    disabled: true
-  - name: wikimini
-    disabled: true
-  - name: wikinews
-    disabled: true
-  - name: wikipedia
-    disabled: true
-  - name: wikiquote
-    disabled: true
-  - name: wikisource
-    disabled: true
-  - name: wikiversity
-    disabled: true
-  - name: wikivoyage
-    disabled: true
-  - name: wiktionary
-    disabled: true
-  - name: wolframalpha
-    disabled: true
-  - name: wordnik
-    disabled: true
-  - name: woxikon.de synonyme
-    disabled: true
-  - name: wttr.in
-    disabled: true
-  - name: yahoo
+
+  - name: bing images
     disabled: false
-  - name: yahoo news
-    disabled: true
-  - name: yep
-    disabled: true
-  - name: youtube
-    disabled: true
-    categories: [videos]
-  - name: z-library
-    disabled: true
+  - name: brave.images
+    disabled: false
+  - name: startpage images
+    disabled: false
+
+  - name: brave.videos
+    disabled: false
+  - name: bitchute
+    disabled: false
+  - name: odysee
+    disabled: false
