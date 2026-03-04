@@ -21,6 +21,7 @@ yq -i '.categories_as_tabs = {}
     | (
         strenv(CATEGORIES)
         | split(",")
+        | map(trim)
     ) as $x
     | .categories_as_tabs[$x[]] = ~
 ' /etc/searxng/settings.yml
@@ -28,6 +29,7 @@ yq -i '.categories_as_tabs = {}
 yq -i '.engines += (
     strenv(DEFAULT_ENGINES)
     | split(",")
+    | map(trim)
     | map({
         "name": .,
         "disabled": false
