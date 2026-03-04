@@ -39,7 +39,7 @@ plugins:
 search:
   autocomplete: qwant
   autocomplete_min: 2
-  default_lang: all
+  default_lang: en
   formats:
     - html
   safe_search: 2
