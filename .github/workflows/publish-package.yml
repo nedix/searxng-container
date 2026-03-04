@@ -8,6 +8,7 @@ permissions:
   attestations: write
   id-token: write
   packages: write
+  security-events: read
 
 jobs:
   publish-package:
