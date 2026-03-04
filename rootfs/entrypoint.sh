@@ -15,5 +15,6 @@ cd /usr/local/searxng/
 exec /usr/local/bin/granian \
     --host="0.0.0.0" \
     --interface="wsgi" \
+    --no-log \
     --port="80" \
     searx.webapp:app
