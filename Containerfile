@@ -54,6 +54,7 @@ ARG PYTHON_VERSION
 COPY --link --from=searxng "/usr/local/lib/python${PYTHON_VERSION}/site-packages/" "/usr/local/lib/python${PYTHON_VERSION}/site-packages/"
 COPY --link --from=searxng /usr/local/bin/granian /usr/local/bin/
 COPY --link --from=searxng /usr/local/searxng/ /usr/local/searxng/
+COPY --link --from=searxng /usr/local/searxng/searx/limiter.toml /etc/searxng/limiter.toml
 COPY --link --from=yq /build/yq/yq /usr/local/bin/
 
 COPY --link /rootfs/ /
