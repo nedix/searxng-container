@@ -8,7 +8,7 @@ Metasearch-engine to combine search results from multiple sources.
 
 ### 1. Start the container
 
-This example command will start the container on port `80`.
+This example command will start the container on port `1234`.
 
 ```shell
 docker run \
@@ -16,14 +16,14 @@ docker run \
     --pull always \
     --rm \
     -e SECRET_KEY="^&*()_+" \
-    -p 127.0.0.1:80:80 \
+    -p 127.0.0.1:1234:80 \
     nedix/searxng
 ```
 
 
 ### 2. Start searching
 
-- Navigate to SearxNG on http://127.0.0.1:80
+- Navigate to SearxNG on http://127.0.0.1:1234
 - Type a search query
 - Press enter or click the search button
 
