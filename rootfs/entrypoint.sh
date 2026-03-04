@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+: ${DEFAULT_ENGINES:="bing,bing images,bitchute,brave,brave.images,brave.videos,odysee,startpage,startpage images"}
 : ${IS_PUBLIC_INSTANCE:="false"}
 : ${SECRET_KEY}
 
@@ -9,6 +10,16 @@ unset SECRET_KEY
 
 yq -i ".engines[].disabled = true" /usr/local/searxng/searx/settings.yml
 yq -i ".server.public_instance = env(IS_PUBLIC_INSTANCE)" /etc/searxng/settings.yml
+
+yq -i \
+    '.engines += (
+        strenv(DEFAULT_ENGINES)
+        | split(",")
+        | map({
+            "name": .,
+            "disabled": false
+        })
+    )' /etc/searxng/settings.yml
 
 cd /usr/local/searxng/
 

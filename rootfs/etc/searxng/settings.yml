@@ -50,23 +50,3 @@ categories_as_tabs:
   videos:
 
 engines:
-  - name: bing
-    disabled: false
-  - name: brave
-    disabled: false
-  - name: startpage
-    disabled: false
-
-  - name: bing images
-    disabled: false
-  - name: brave.images
-    disabled: false
-  - name: startpage images
-    disabled: false
-
-  - name: bitchute
-    disabled: false
-  - name: brave.videos
-    disabled: false
-  - name: odysee
-    disabled: false
