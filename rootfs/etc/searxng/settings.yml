@@ -5,8 +5,8 @@ general:
   enable_metrics: false
 
 server:
-  port: 80
   image_proxy: true
+  port: 80
 
 ui:
   default_theme: simple

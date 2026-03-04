@@ -1,28 +1,62 @@
 ARG ALPINE_VERSION=3.23
-ARG PYTHON_VERSION=3.14
-ARG SEARXNG_VERSION=b5c1c2804835700c7a2a68dc8482224b60c90a03
+ARG PYTHON_VERSION=3.13
+ARG SEARXNG_VERSION=dd98f761ad393e9efce113bfe56cfd40aa10ed2a
+ARG YQ_VERSION=4.52.4
 
-FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
+FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION} AS base
+
+RUN apk add \
+        git
+
+FROM base AS build-base
+
+RUN apk add \
+        build-base \
+        curl
+
+FROM build-base AS searxng
+
+WORKDIR /usr/local/searxng/
 
 ARG SEARXNG_VERSION
 
-RUN apk add --virtual .build-deps \
-        build-base \
-    && apk add \
-        git \
-        uwsgi-python3 \
-    && git clone https://github.com/searxng/searxng.git /usr/local/searxng \
-    && cd /usr/local/searxng \
+RUN git clone https://github.com/searxng/searxng.git . \
     && git checkout "$SEARXNG_VERSION" \
     && pip install --upgrade pip \
-    && pip install --no-cache -r requirements.txt \
-    && apk del .build-deps
+    && pip install \
+        --no-cache \
+        -r requirements.txt \
+        -r requirements-server.txt
 
-COPY --link rootfs /
+FROM build-base AS yq
 
-RUN chown -R nobody \
-        /usr/local/searxng \
-        /var/log/uwsgi/
+WORKDIR /build/yq/
+
+ARG YQ_VERSION
+
+RUN case "$(uname -m)" in \
+        aarch64) \
+            ARCHITECTURE="arm64" \
+        ;; arm*) \
+            ARCHITECTURE="arm64" \
+        ;; x86_64) \
+            ARCHITECTURE="amd64" \
+        ;; *) echo "Unsupported architecture: $(uname -m)"; exit 1; ;; \
+    esac \
+    && curl -fsSL "https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_${ARCHITECTURE}.tar.gz" \
+    | tar xzOf - "./yq_linux_${ARCHITECTURE}" > yq \
+    && chmod +x yq
+
+FROM base
+
+ARG PYTHON_VERSION
+
+COPY --link --from=searxng "/usr/local/lib/python${PYTHON_VERSION}/site-packages/" "/usr/local/lib/python${PYTHON_VERSION}/site-packages/"
+COPY --link --from=searxng /usr/local/bin/granian /usr/local/bin/
+COPY --link --from=searxng /usr/local/searxng/ /usr/local/searxng/
+COPY --link --from=yq /build/yq/yq /usr/local/bin/
+
+COPY --link /rootfs/ /
 
 EXPOSE 80
 

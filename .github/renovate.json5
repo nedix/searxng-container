@@ -11,6 +11,13 @@
       packageNameTemplate: "alpine",
     },
     {
+      depNameTemplate: "Python",
+      fileMatch: ["^Containerfile$"],
+      matchStrings: ["ARG PYTHON_VERSION=(?<currentValue>.*?)\\n"],
+      datasourceTemplate: "docker",
+      packageNameTemplate: "python",
+    },
+    {
       depNameTemplate: "SearXNG",
       fileMatch: ["^Containerfile$"],
       matchStrings: ["ARG SEARXNG_VERSION=(?<currentDigest>.*?)\\n"],
@@ -20,14 +27,21 @@
       currentValueTemplate: "master",
     },
     {
-      depNameTemplate: "Python",
+      depNameTemplate: "YQ",
       fileMatch: ["^Containerfile$"],
-      matchStrings: ["ARG PYTHON_VERSION=(?<currentValue>.*?)\\n"],
-      datasourceTemplate: "docker",
-      packageNameTemplate: "python"
+      matchStrings: ["ARG YQ_VERSION=(?<currentValue>.*?)\\n"],
+      datasourceTemplate: "github-releases",
+      packageNameTemplate: "mikefarah/yq",
+    }
+  ],
+  packageRules: [
+    {
+      description: "Custom versioning for YQ",
+      matchPackageNames: ["mikefarah/yq"],
+      extractVersion: "^v(?<version>.*)$",
     },
   ],
   prBodyNotes: [
-    "{{#if (equals depName 'SearxNG')}}[Compare changes](https://github.com/searxng/searxng/compare/{{currentDigestShort}}...{{newDigestShort}}){{/if}}"
+    "{{#if (equals depName 'SearxNG')}}[Compare changes](https://github.com/searxng/searxng/compare/{{currentDigestShort}}...{{newDigestShort}}){{/if}}",
   ],
 }

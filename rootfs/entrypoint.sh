@@ -1,26 +1,19 @@
 #!/usr/bin/env sh
 
-set -e
-
+: ${IS_PUBLIC_INSTANCE:="false"}
 : ${SECRET_KEY}
-: ${UWSGI_THREADS:="4"}
-: ${UWSGI_WORKERS:="%k"}
 
-PYTHON_PATH="$(python -c 'import site; print(site.getsitepackages()[0])')"
+yq -i ".server.secret_key = ${SECRET_KEY}" /etc/searxng/settings.yml
 
-sed -E \
-    -e "s|(threads =).*|\1 ${UWSGI_THREADS}|" \
-    -e "s|(workers =).*|\1 ${UWSGI_WORKERS}|" \
-    -i /usr/local/searxng/container/uwsgi.ini
+unset SECRET_KEY
 
-sed -E \
-    -e "s|(pythonpath =).*|\1 ${PYTHON_PATH}|" \
-    -i /etc/searxng/uwsgi.ini
+yq -i ".engines[].disabled = true" /usr/local/searxng/searx/settings.yml
+yq -i ".server.public_instance = ${IS_PUBLIC_INSTANCE}" /etc/searxng/settings.yml
 
-export BIND_ADDRESS="[::]:80"
-export SEARXNG_SECRET="$SECRET_KEY"
+cd /usr/local/searxng/
 
-exec uwsgi \
-    --http-socket "$BIND_ADDRESS" \
-    --ini /usr/local/searxng/container/uwsgi.ini \
-    --ini /etc/searxng/uwsgi.ini
+exec /usr/local/bin/granian \
+    --host="0.0.0.0" \
+    --interface="wsgi" \
+    --port="80" \
+    searx.webapp:app
