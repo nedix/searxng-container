@@ -5,6 +5,11 @@
 : ${IS_PUBLIC_INSTANCE:="false"}
 : ${SECRET_KEY}
 
+export CATEGORIES
+export DEFAULT_ENGINES
+export IS_PUBLIC_INSTANCE
+export SECRET_KEY
+
 yq -i ".server.secret_key = env(SECRET_KEY)" /etc/searxng/settings.yml
 
 unset SECRET_KEY
