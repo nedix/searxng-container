@@ -5,9 +5,7 @@ on:
     tags: ['*']
 
 permissions:
-  id-token: write
-
-permissions:
+  attestations: write
   id-token: write
 
 jobs:
