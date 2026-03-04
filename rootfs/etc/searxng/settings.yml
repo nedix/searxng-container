@@ -64,9 +64,9 @@ engines:
   - name: startpage images
     disabled: false
 
-  - name: brave.videos
-    disabled: false
   - name: bitchute
+    disabled: false
+  - name: brave.videos
     disabled: false
   - name: odysee
     disabled: false
