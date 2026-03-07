@@ -14,7 +14,7 @@ This example command will start the container on port `1234`.
 docker run \
     --name searxng \
     --pull always \
-    --rm \
+    --restart unless-stopped \
     -e SECRET_KEY="^&*()_+" \
     -p 127.0.0.1:1234:80 \
     nedix/searxng
