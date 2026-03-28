@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 : ${CATEGORIES:="general,images,videos"}
-: ${DEFAULT_ENGINES:="bitchute,brave,brave.images,brave.videos,duckduckgo,duckduckgo images,duckduckgo videos,odysee,presearch,startpage,yahoo"}
+: ${DEFAULT_ENGINES:="bitchute,duckduckgo,duckduckgo images,duckduckgo videos,odysee,presearch,startpage,yahoo"}
 : ${IS_PUBLIC_INSTANCE:="false"}
 : ${SECRET_KEY}
 
