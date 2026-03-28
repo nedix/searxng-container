@@ -1,43 +1,22 @@
 use_default_settings: true
 
+categories_as_tabs:
+
+engines:
+
 general:
   debug: false
-  enable_metrics: false
-
-server:
-  image_proxy: true
-  port: 80
-
-ui:
-  default_theme: simple
-  search_on_category_select: true
-  theme_args:
-    simple_style: dark
-
-valkey:
-  url: unix:///run/valkey/valkey.sock?db=0
 
 plugins:
-  searx.plugins.ahmia_filter.SXNGPlugin:
-    active: false
-  searx.plugins.calculator.SXNGPlugin:
-    active: false
-  searx.plugins.hash_plugin.SXNGPlugin:
-    active: false
-  searx.plugins.hostnames.SXNGPlugin:
-    active: false
-  searx.plugins.infinite_scroll.SXNGPlugin:
-    active: false
   searx.plugins.oa_doi_rewrite.SXNGPlugin:
     active: true
-  searx.plugins.self_info.SXNGPlugin:
-    active: false
-  searx.plugins.tor_check.SXNGPlugin:
-    active: false
   searx.plugins.tracker_url_remover.SXNGPlugin:
     active: true
-  searx.plugins.unit_converter.SXNGPlugin:
-    active: false
+
+preferences:
+  lock:
+    - center_alignment
+    - locale
 
 search:
   autocomplete: qwant
@@ -47,5 +26,16 @@ search:
     - html
   safe_search: 2
 
-categories_as_tabs:
-engines:
+server:
+  image_proxy: true
+  port: 80
+
+ui:
+  default_locale: en
+  default_theme: simple
+  search_on_category_select: true
+  theme_args:
+    simple_style: dark
+
+valkey:
+  url: unix:///run/valkey/valkey.sock?db=0
