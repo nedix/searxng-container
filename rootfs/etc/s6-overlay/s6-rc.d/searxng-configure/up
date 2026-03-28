@@ -2,17 +2,22 @@
 
 : ${CATEGORIES}
 : ${DEFAULT_ENGINES}
+: ${ENABLE_DONATION_URL}
 : ${ENABLE_METRICS}
 : ${IS_PUBLIC_INSTANCE}
 : ${SECRET_KEY}
 
-yq -i ".server.secret_key = env(SECRET_KEY)" /etc/searxng/settings.yml
+cp /usr/local/searxng/searx/limiter.toml /etc/searxng/limiter.toml
+
+yq -i ".general.donation_url = env(ENABLE_DONATION_URL)"  /etc/searxng/settings.yml
+yq -i ".general.enable_metrics = env(ENABLE_METRICS)"     /etc/searxng/settings.yml
+yq -i ".plugins[].active = false"                         /usr/local/searxng/searx/settings.yml
+yq -i ".server.public_instance = env(IS_PUBLIC_INSTANCE)" /etc/searxng/settings.yml
+yq -i ".server.secret_key = env(SECRET_KEY)"              /etc/searxng/settings.yml
 
 unset SECRET_KEY
 
-yq -i ".plugins[].active = false" /usr/local/searxng/searx/settings.yml
-
-if [ ! -z "$CATEGORIES" ]; then
+if [ -n "$CATEGORIES" ]; then
     yq -i '.categories_as_tabs = {}
         | (
             strenv(CATEGORIES)
@@ -25,7 +30,7 @@ else
     yq -i 'del(.categories_as_tabs)' /etc/searxng/settings.yml
 fi
 
-if [ ! -z "$DEFAULT_ENGINES" ]; then
+if [ -n "$DEFAULT_ENGINES" ]; then
     yq -i ".engines[].disabled = true" /usr/local/searxng/searx/settings.yml
 
     yq -i '.engines += (
@@ -40,8 +45,3 @@ if [ ! -z "$DEFAULT_ENGINES" ]; then
 else
     yq -i 'del(.engines)' /etc/searxng/settings.yml
 fi
-
-yq -i ".general.enable_metrics = env(ENABLE_METRICS)" /etc/searxng/settings.yml
-yq -i ".server.public_instance = env(IS_PUBLIC_INSTANCE)" /etc/searxng/settings.yml
-
-cp /usr/local/searxng/searx/limiter.toml /etc/searxng/limiter.toml
