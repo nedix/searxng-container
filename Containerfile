@@ -1,7 +1,8 @@
 ARG ALPINE_VERSION=3.23
-ARG SEARXNG_VERSION=7ac4ff39fee4cdde223dbab6a83af9c26b56366e
 ARG PYTHON_VERSION=3.12
 ARG S6_OVERLAY_VERSION=3.2.2.0
+ARG SEARXNG_VERSION=7ac4ff39fee4cdde223dbab6a83af9c26b56366e
+ARG VALKEY_VERSION=9.0.0
 ARG YQ_VERSION=4.52.5
 
 FROM alpine:${ALPINE_VERSION} AS base
@@ -10,7 +11,6 @@ ARG PYTHON_VERSION
 ARG S6_OVERLAY_VERSION
 
 RUN apk add \
-        "python${PYTHON_VERSION%.*}~${PYTHON_VERSION}" \
         git \
     && apk add --virtual .build-deps \
         xz \
@@ -73,6 +73,12 @@ RUN case "$(uname -m)" in \
 FROM base
 
 ARG PYTHON_VERSION
+ARG VALKEY_VERSION
+
+RUN apk add \
+        "python${PYTHON_VERSION%.*}~${PYTHON_VERSION}" \
+        "valkey-cli~${VALKEY_VERSION}" \
+        "valkey~${VALKEY_VERSION}"
 
 COPY --link --from=searxng "/root/.local/lib/python${PYTHON_VERSION}/site-packages/" "/usr/lib/python${PYTHON_VERSION}/site-packages/"
 COPY --link --from=searxng /build/searxng/ /usr/local/searxng/
