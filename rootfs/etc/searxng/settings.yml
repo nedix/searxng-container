@@ -26,7 +26,7 @@ plugins:
   searx.plugins.infinite_scroll.SXNGPlugin:
     active: false
   searx.plugins.oa_doi_rewrite.SXNGPlugin:
-    active: false
+    active: true
   searx.plugins.self_info.SXNGPlugin:
     active: false
   searx.plugins.tor_check.SXNGPlugin:
