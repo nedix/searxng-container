@@ -36,15 +36,15 @@ ARG YQ_VERSION
 
 RUN case "$(uname -m)" in \
         aarch64) \
-            ARCHITECTURE="arm64" \
+            YQ_ARCHITECTURE="arm64" \
         ;; arm*) \
-            ARCHITECTURE="arm64" \
+            YQ_ARCHITECTURE="arm64" \
         ;; x86_64) \
-            ARCHITECTURE="amd64" \
+            YQ_ARCHITECTURE="amd64" \
         ;; *) echo "Unsupported architecture: $(uname -m)"; exit 1; ;; \
     esac \
-    && curl -fsSL "https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_${ARCHITECTURE}.tar.gz" \
-    | tar xzOf - "./yq_linux_${ARCHITECTURE}" > yq \
+    && curl -fsSL "https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_${YQ_ARCHITECTURE}.tar.gz" \
+    | tar xzOf - "./yq_linux_${YQ_ARCHITECTURE}" > yq \
     && chmod +x yq
 
 FROM base

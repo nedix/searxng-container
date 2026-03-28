@@ -10,7 +10,7 @@ up:
 	@docker run \
 		--env-file .env \
 		--name searxng \
-		--rm \
+		--restart unless-stopped \
 		-p 127.0.0.1:$(HTTP_PORT):80 \
 		-d \
 		searxng
