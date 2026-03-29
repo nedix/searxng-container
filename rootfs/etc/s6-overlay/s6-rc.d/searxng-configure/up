@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+
+: ${CATEGORIES}
+: ${DEFAULT_ENGINES}
+: ${IS_PUBLIC_INSTANCE}
+: ${SECRET_KEY}
+
+yq -i ".server.secret_key = env(SECRET_KEY)" /etc/searxng/settings.yml
+
+unset SECRET_KEY
+
+yq -i ".server.public_instance = env(IS_PUBLIC_INSTANCE)" /etc/searxng/settings.yml
+
+yq -i '.categories_as_tabs = {}
+    | (
+        strenv(CATEGORIES)
+        | split(",")
+        | map(trim)
+    ) as $x
+    | .categories_as_tabs[$x[]] = ~
+' /etc/searxng/settings.yml
+
+yq -i ".engines[].disabled = true" /usr/local/searxng/searx/settings.yml
+
+yq -i '.engines += (
+    strenv(DEFAULT_ENGINES)
+    | split(",")
+    | map(trim)
+    | map({
+        "name": .,
+        "disabled": false
+    })
+)' /etc/searxng/settings.yml
+
+cp /usr/local/searxng/searx/limiter.toml /etc/searxng/limiter.toml

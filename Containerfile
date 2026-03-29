@@ -1,32 +1,55 @@
 ARG ALPINE_VERSION=3.23
-ARG PYTHON_VERSION=3.14
 ARG SEARXNG_VERSION=7ac4ff39fee4cdde223dbab6a83af9c26b56366e
+ARG PYTHON_VERSION=3.12
+ARG S6_OVERLAY_VERSION=3.2.2.0
 ARG YQ_VERSION=4.52.5
 
-FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION} AS base
+FROM alpine:${ALPINE_VERSION} AS base
+
+ARG PYTHON_VERSION
+ARG S6_OVERLAY_VERSION
 
 RUN apk add \
-        git
+        "python${PYTHON_VERSION%.*}~${PYTHON_VERSION}" \
+        git \
+    && apk add --virtual .build-deps \
+        xz \
+    && case "$(uname -m)" in \
+        aarch64) \
+            S6_OVERLAY_ARCHITECTURE="aarch64" \
+        ;; arm*) \
+            S6_OVERLAY_ARCHITECTURE="arm" \
+        ;; x86_64) \
+            S6_OVERLAY_ARCHITECTURE="x86_64" \
+        ;; *) echo "Unsupported architecture: $(uname -m)"; exit 1; ;; \
+    esac \
+    && wget -qO- "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz" \
+    | tar -xpJf- -C / \
+    && wget -qO- "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_OVERLAY_ARCHITECTURE}.tar.xz" \
+    | tar -xpJf- -C / \
+    && apk del .build-deps
 
 FROM base AS build-base
 
+ARG PYTHON_VERSION
+
 RUN apk add \
-        build-base \
-        curl
+        "py${PYTHON_VERSION%.*}-pip" \
+        "python${PYTHON_VERSION%.*}-dev~${PYTHON_VERSION}"
 
 FROM build-base AS searxng
 
-WORKDIR /usr/local/searxng/
+WORKDIR /build/searxng/
 
 ARG SEARXNG_VERSION
 
-RUN git clone https://github.com/searxng/searxng.git . \
+RUN git clone --depth 1 --recursive https://github.com/searxng/searxng.git . \
     && git checkout "$SEARXNG_VERSION" \
-    && pip install --upgrade pip \
     && pip install \
-        --no-cache \
-        -r requirements.txt \
-        -r requirements-server.txt
+        --break-system-packages \
+        --user \
+        -r requirements-server.txt \
+        -r requirements.txt
 
 FROM build-base AS yq
 
@@ -43,7 +66,7 @@ RUN case "$(uname -m)" in \
             YQ_ARCHITECTURE="amd64" \
         ;; *) echo "Unsupported architecture: $(uname -m)"; exit 1; ;; \
     esac \
-    && curl -fsSL "https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_${YQ_ARCHITECTURE}.tar.gz" \
+    && wget -qO- "https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_${YQ_ARCHITECTURE}.tar.gz" \
     | tar xzOf - "./yq_linux_${YQ_ARCHITECTURE}" > yq \
     && chmod +x yq
 
@@ -51,14 +74,16 @@ FROM base
 
 ARG PYTHON_VERSION
 
-COPY --link --from=searxng "/usr/local/lib/python${PYTHON_VERSION}/site-packages/" "/usr/local/lib/python${PYTHON_VERSION}/site-packages/"
-COPY --link --from=searxng /usr/local/bin/granian /usr/local/bin/
-COPY --link --from=searxng /usr/local/searxng/ /usr/local/searxng/
-COPY --link --from=searxng /usr/local/searxng/searx/limiter.toml /etc/searxng/limiter.toml
-COPY --link --from=yq /build/yq/yq /usr/local/bin/
+COPY --link --from=searxng "/root/.local/lib/python${PYTHON_VERSION}/site-packages/" "/usr/lib/python${PYTHON_VERSION}/site-packages/"
+COPY --link --from=searxng /build/searxng/ /usr/local/searxng/
+COPY --link --from=searxng /root/.local/bin/granian /usr/bin/
+COPY --link --from=yq /build/yq/yq /usr/bin/
 
 COPY --link /rootfs/ /
 
-EXPOSE 80
-
 ENTRYPOINT ["/entrypoint.sh"]
+
+# SearxNG
+EXPOSE 80/tcp
+
+VOLUME /var/lib/valkey/
