@@ -43,6 +43,6 @@
     },
   ],
   prBodyNotes: [
-    "{{#if (equals depName 'SearxNG')}}[Compare changes](https://github.com/searxng/searxng/compare/{{currentDigestShort}}...{{newDigestShort}}){{/if}}",
+    "{{#if (equals depName 'SearXNG')}}[Compare changes](https://github.com/searxng/searxng/compare/{{currentDigestShort}}...{{newDigestShort}}){{/if}}",
   ],
 }
