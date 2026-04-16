@@ -10,7 +10,6 @@ This instance of SearXNG is powered by the [nedix/searxng (Docker Hub)](https://
 
 You can donate using one of these methods:
 
-- **Bitcoin (BTC):** `bc1q0g0uuwwt8y40nfj27pxxs3eqp6y87k2y0k5vme`
 - **PayPal:** [paypal.me/nedix](https://paypal.me/nedix)
 
 Every donation supports maintenance and improvements to keep the container secure and up-to-date. Thank you for your support!
