@@ -15,7 +15,7 @@ plugins:
 
 preferences:
   lock:
-    - center_alignment
+    - categories
     - locale
 
 search:
@@ -28,11 +28,13 @@ search:
 
 server:
   image_proxy: true
+  method: GET
   port: 80
 
 ui:
   default_locale: en
   default_theme: simple
+  query_in_title: true
   search_on_category_select: true
   theme_args:
     simple_style: dark
