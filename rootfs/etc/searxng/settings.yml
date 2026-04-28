@@ -15,6 +15,7 @@ plugins:
 
 preferences:
   lock:
+    - language
     - locale
 
 search:
