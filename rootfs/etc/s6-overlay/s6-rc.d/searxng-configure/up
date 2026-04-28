@@ -9,7 +9,6 @@
 
 cp /usr/local/searxng/searx/limiter.toml /etc/searxng/limiter.toml
 
-yq -i ".general.donation_url = env(ENABLE_DONATION_URL)"  /etc/searxng/settings.yml
 yq -i ".general.enable_metrics = env(ENABLE_METRICS)"     /etc/searxng/settings.yml
 yq -i ".plugins[].active = false"                         /usr/local/searxng/searx/settings.yml
 yq -i ".server.public_instance = env(IS_PUBLIC_INSTANCE)" /etc/searxng/settings.yml
