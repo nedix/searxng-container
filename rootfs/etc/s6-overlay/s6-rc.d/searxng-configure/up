@@ -2,7 +2,6 @@
 
 : ${CATEGORIES}
 : ${DEFAULT_ENGINES}
-: ${ENABLE_DONATION_URL}
 : ${ENABLE_METRICS}
 : ${IS_PUBLIC_INSTANCE}
 : ${SECRET_KEY}
@@ -15,6 +14,10 @@ yq -i ".server.public_instance = env(IS_PUBLIC_INSTANCE)" /etc/searxng/settings.
 yq -i ".server.secret_key = env(SECRET_KEY)"              /etc/searxng/settings.yml
 
 unset SECRET_KEY
+
+if [ -f /usr/local/searxng/searx/infopage/en/donate.md ]; then
+    yq -i ".general.donation_url = true"  /etc/searxng/settings.yml
+fi
 
 if [ -n "$CATEGORIES" ]; then
     yq -i '.categories_as_tabs = {}
