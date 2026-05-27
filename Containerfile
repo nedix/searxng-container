@@ -2,7 +2,6 @@ ARG ALPINE_VERSION=3.23.4
 ARG PYTHON_VERSION=3.12
 ARG S6_OVERLAY_VERSION=3.2.2.0
 ARG SEARXNG_VERSION=df1f24fb7fdb07e86e8b0ca82acddab97f379433
-ARG VALKEY_VERSION=9.0.3
 ARG YQ_VERSION=4.53.2
 
 FROM ghcr.io/nedix/alpine-base-container:${ALPINE_VERSION} AS base
@@ -72,12 +71,11 @@ RUN case "$(uname -m)" in \
 FROM base
 
 ARG PYTHON_VERSION
-ARG VALKEY_VERSION
 
 RUN apk add \
         "python${PYTHON_VERSION%.*}~${PYTHON_VERSION}" \
-        "valkey-cli~${VALKEY_VERSION}" \
-        "valkey~${VALKEY_VERSION}"
+        valkey \
+        valkey-cli
 
 COPY --link --from=searxng "/root/.local/lib/python${PYTHON_VERSION}/site-packages/" "/usr/lib/python${PYTHON_VERSION}/site-packages/"
 COPY --link --from=searxng /build/searxng/ /usr/local/searxng/
