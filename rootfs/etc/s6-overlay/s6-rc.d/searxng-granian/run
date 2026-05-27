@@ -7,4 +7,4 @@ exec /usr/bin/granian \
     --interface="wsgi" \
     --no-log \
     --port="80" \
-    searx.webapp:app
+    granian_proxy_wrapper:app
