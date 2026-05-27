@@ -16,7 +16,6 @@ plugins:
 preferences:
   lock:
     - language
-    - locale
 
 search:
   autocomplete: qwant
