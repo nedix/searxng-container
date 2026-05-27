@@ -27,6 +27,8 @@ RUN apk add \
     | tar -xpJf- -C / \
     && apk del .build-deps
 
+ENV PATH="~/.local/bin:${PATH}"
+
 FROM base AS build-base
 
 ARG PYTHON_VERSION
