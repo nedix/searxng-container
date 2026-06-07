@@ -1,17 +1,38 @@
 #!/usr/bin/env sh
 
+: ${AUTOCOMPLETE}
 : ${CATEGORIES}
+: ${DEBUG}
 : ${DEFAULT_ENGINES}
+: ${DEFAULT_LANGUAGE}
+: ${DEFAULT_LOCALE}
 : ${ENABLE_METRICS}
+: ${FORMATS} # TODO: list
+: ${IMAGE_PROXY}
 : ${IS_PUBLIC_INSTANCE}
+: ${PLUGINS} # TODO: map format
+: ${PREFERENCES_LOCK} # TODO: list
+: ${QUERY_IN_TITLE}
+: ${SAFE_SEARCH}
+: ${SEARCH_ON_CATEGORY_SELECT}
 : ${SECRET_KEY}
+: ${URL_FORMATTING}
 
-cp /usr/local/searxng/searx/limiter.toml /etc/searxng/limiter.toml
+ln -fs /usr/local/searxng/searx/limiter.toml /etc/searxng/limiter.toml
 
-yq -i ".general.enable_metrics = env(ENABLE_METRICS)"     /etc/searxng/settings.yml
-yq -i ".plugins[].active = false"                         /usr/local/searxng/searx/settings.yml
-yq -i ".server.public_instance = env(IS_PUBLIC_INSTANCE)" /etc/searxng/settings.yml
-yq -i ".server.secret_key = env(SECRET_KEY)"              /etc/searxng/settings.yml
+yq -i ".general.debug = env(DEBUG)"                                    /etc/searxng/settings.yml
+yq -i ".general.enable_metrics = env(ENABLE_METRICS)"                  /etc/searxng/settings.yml
+yq -i ".plugins[].active = false"                                      /usr/local/searxng/searx/settings.yml
+yq -i ".search.autocomplete = env(AUTOCOMPLETE)"                       /etc/searxng/settings.yml
+yq -i ".search.default_lang = env(DEFAULT_LANGUAGE)"                   /etc/searxng/settings.yml
+yq -i ".search.safe_search = env(SAFE_SEARCH)"                         /etc/searxng/settings.yml
+yq -i ".server.image_proxy = env(IMAGE_PROXY)"                         /etc/searxng/settings.yml
+yq -i ".server.public_instance = env(IS_PUBLIC_INSTANCE)"              /etc/searxng/settings.yml
+yq -i ".server.secret_key = env(SECRET_KEY)"                           /etc/searxng/settings.yml
+yq -i ".ui.default_locale = env(DEFAULT_LOCALE)"                       /etc/searxng/settings.yml
+yq -i ".ui.query_in_title = env(QUERY_IN_TITLE)"                       /etc/searxng/settings.yml
+yq -i ".ui.search_on_category_select = env(SEARCH_ON_CATEGORY_SELECT)" /etc/searxng/settings.yml
+yq -i ".ui.url_formatting = env(URL_FORMATTING)"                       /etc/searxng/settings.yml
 
 unset SECRET_KEY
 
