@@ -1,12 +1,5 @@
 use_default_settings: true
 
-categories_as_tabs:
-
-engines:
-
-general:
-  debug: false
-
 plugins:
   searx.plugins.oa_doi_rewrite.SXNGPlugin:
     active: true
@@ -18,23 +11,15 @@ preferences:
     - language
 
 search:
-  autocomplete: qwant
   autocomplete_min: 2
-  default_lang: en-US
   formats:
     - html
-  safe_search: 2
 
 server:
-  image_proxy: true
   port: 80
 
 ui:
-  default_locale: en
   default_theme: simple
-  query_in_title: true
-  search_on_category_select: true
-  url_formatting: full
 
 valkey:
   url: unix:///run/valkey/valkey.sock?db=0
