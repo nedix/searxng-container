@@ -2,6 +2,7 @@ ARG ALPINE_VERSION=3.23.4
 ARG PYTHON_VERSION=3.12
 ARG S6_OVERLAY_VERSION=3.2.2.0
 ARG SEARXNG_VERSION=4dd0bf48670727f6ae1086ffa72e76f6eb869741
+ARG TRAEFIK_VERSION=3.7.5
 ARG YQ_VERSION=4.53.3
 
 FROM ghcr.io/nedix/alpine-base-container:${ALPINE_VERSION} AS base
@@ -51,6 +52,23 @@ RUN git clone --depth 1 --recursive https://github.com/searxng/searxng.git . \
         -r requirements-server.txt \
         -r requirements.txt
 
+FROM build-base AS traefik
+
+WORKDIR /build/traefik/
+
+ARG TRAEFIK_VERSION
+
+RUN case "$(uname -m)" in \
+        aarch64|arm*) \
+            TRAEFIK_ARCHITECTURE="arm64" \
+        ;; x86_64) \
+            TRAEFIK_ARCHITECTURE="amd64" \
+        ;; *) echo "Unsupported architecture: $(uname -m)"; exit 1; ;; \
+    esac \
+    && wget -qO- "https://github.com/traefik/traefik/releases/download/v${TRAEFIK_VERSION}/traefik_v${TRAEFIK_VERSION}_linux_${TRAEFIK_ARCHITECTURE}.tar.gz" \
+    | tar xzOf - traefik > traefik \
+    && chmod +x traefik
+
 FROM build-base AS yq
 
 WORKDIR /build/yq/
@@ -82,13 +100,14 @@ RUN apk add \
 COPY --link --from=searxng "/root/.local/lib/python${PYTHON_VERSION}/site-packages/" "/usr/lib/python${PYTHON_VERSION}/site-packages/"
 COPY --link --from=searxng /build/searxng/ /usr/local/searxng/
 COPY --link --from=searxng /root/.local/bin/granian /usr/bin/
+COPY --link --from=traefik /build/traefik/traefik /usr/bin/
 COPY --link --from=yq /build/yq/yq /usr/bin/
 
 COPY --link /rootfs/ /
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-# SearxNG
+# Traefik
 EXPOSE 80/tcp
 
 VOLUME /var/lib/valkey/

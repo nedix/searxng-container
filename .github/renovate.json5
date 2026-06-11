@@ -28,6 +28,13 @@
       currentValueTemplate: "master",
     },
     {
+      depNameTemplate: "Traefik",
+      fileMatch: ["^Containerfile$"],
+      matchStrings: ["ARG TRAEFIK_VERSION=(?<currentValue>.*?)\\n"],
+      datasourceTemplate: "github-releases",
+      packageNameTemplate: "traefik/traefik",
+    },
+    {
       depNameTemplate: "YQ",
       fileMatch: ["^Containerfile$"],
       matchStrings: ["ARG YQ_VERSION=(?<currentValue>.*?)\\n"],
@@ -36,6 +43,11 @@
     },
   ],
   packageRules: [
+    {
+      description: "Custom versioning for Traefik",
+      matchPackageNames: ["traefik/traefik"],
+      extractVersion: "^v(?<version>.*)$",
+    },
     {
       description: "Custom versioning for YQ",
       matchPackageNames: ["mikefarah/yq"],

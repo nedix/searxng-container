@@ -3,8 +3,8 @@
 cd /usr/local/searxng/
 
 exec /usr/bin/granian \
-    --host="0.0.0.0" \
+    --host="127.0.0.1" \
     --interface="wsgi" \
     --no-log \
-    --port="80" \
-    granian_proxy_wrapper:app
+    --port="8080" \
+    searx.webapp
