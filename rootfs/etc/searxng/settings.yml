@@ -1,25 +1,7 @@
 use_default_settings: true
 
-plugins:
-  searx.plugins.oa_doi_rewrite.SXNGPlugin:
-    active: true
-  searx.plugins.tracker_url_remover.SXNGPlugin:
-    active: true
-
-preferences:
-  lock:
-    - language
-
 search:
   autocomplete_min: 2
-  formats:
-    - html
-
-server:
-  port: 80
-
-ui:
-  default_theme: simple
 
 valkey:
   url: unix:///run/valkey/valkey.sock?db=0
