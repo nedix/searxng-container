@@ -74,20 +74,29 @@ fi
 
 if [ -n "$FORMATS" ]; then
     yq -i '.search.formats = (
-        strenv(FORMATS) | split(",") | map(trim)
+        strenv(FORMATS)
+        | split(",")
+        | map(trim)
     ) ' /etc/searxng/settings.yml
 fi
 
 if [ -n "$PLUGINS" ]; then
     yq -i '.plugins = {}
-        | (strenv(PLUGINS) | split(",") | map(trim) | .[]) as $plugin
+        | (
+            strenv(PLUGINS)
+            | split(",")
+            | map(trim)
+            | .[]
+        ) as $plugin
         | .plugins["searx.plugins." + $plugin + ".SXNGPlugin"].active = true
     ' /etc/searxng/settings.yml
 fi
 
 if [ -n "$PREFERENCES_LOCK" ]; then
     yq -i '.preferences.lock = (
-        strenv(PREFERENCES_LOCK) | split(",") | map(trim)
+        strenv(PREFERENCES_LOCK)
+        | split(",")
+        | map(trim)
     ) ' /etc/searxng/settings.yml
 fi
 
