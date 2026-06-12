@@ -53,8 +53,8 @@ if [ -n "$CATEGORIES_AS_TABS" ]; then
             strenv(CATEGORIES_AS_TABS)
             | split(",")
             | map(trim)
-        ) as $x
-        | .categories_as_tabs[$x[]] = ~
+        ) as $category
+        | .categories_as_tabs[$category[]] = ~
     ' /etc/searxng/settings.yml
 fi
 
@@ -99,5 +99,7 @@ if [ -n "$PREFERENCES_LOCK" ]; then
         | map(trim)
     ) ' /etc/searxng/settings.yml
 fi
+
+sed -E "s|: ~$|:|" -i /etc/searxng/settings.yml
 
 ln -fs /usr/local/searxng/searx/limiter.toml /etc/searxng/limiter.toml
