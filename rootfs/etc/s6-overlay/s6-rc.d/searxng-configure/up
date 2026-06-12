@@ -18,6 +18,7 @@
 : ${SEARCH_ON_CATEGORY_SELECT}
 : ${SECRET_KEY}
 : ${URL_FORMATTING}
+: ${VALKEY_URL}
 
 {
     yq -i ".server.secret_key = env(SECRET_KEY)" /etc/searxng/settings.yml
@@ -41,6 +42,7 @@
     yq -i ".ui.query_in_title = env(QUERY_IN_TITLE)"                       /etc/searxng/settings.yml
     yq -i ".ui.search_on_category_select = env(SEARCH_ON_CATEGORY_SELECT)" /etc/searxng/settings.yml
     yq -i ".ui.url_formatting = env(URL_FORMATTING)"                       /etc/searxng/settings.yml
+    yq -i ".valkey.url = env(VALKEY_URL)"                                  /etc/searxng/settings.yml
 }
 
 if [ -f /usr/local/searxng/searx/infopage/en/donate.md ]; then

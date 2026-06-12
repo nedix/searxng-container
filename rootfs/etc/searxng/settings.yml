@@ -3,5 +3,3 @@ use_default_settings: true
 search:
   autocomplete_min: 2
 
-valkey:
-  url: unix:///run/valkey/valkey.sock?db=0

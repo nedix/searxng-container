@@ -3,11 +3,11 @@
 : ${AUTOCOMPLETE:="qwant"}
 : ${CATEGORIES_AS_TABS:="general,images,videos"}
 : ${DEBUG:="false"}
-: ${ENGINES:="bitchute,duckduckgo,duckduckgo images,duckduckgo videos,mojeek,mojeek images,odysee,presearch,startpage,startpage images,youtube"}
 : ${DEFAULT_LANGUAGE:="en-US"}
 : ${DEFAULT_LOCALE:="en"}
 : ${DEFAULT_THEME:="simple"}
 : ${ENABLE_METRICS:="true"}
+: ${ENGINES:="bitchute,duckduckgo,duckduckgo images,duckduckgo videos,mojeek,mojeek images,odysee,presearch,startpage,startpage images,youtube"}
 : ${FORMATS:="html"}
 : ${IMAGE_PROXY:="true"}
 : ${PLUGINS:="oa_doi_rewrite,tracker_url_remover"}
@@ -18,6 +18,7 @@
 : ${SEARCH_ON_CATEGORY_SELECT:="true"}
 : ${SECRET_KEY}
 : ${URL_FORMATTING:="full"}
+: ${VALKEY_URL:="unix:///run/valkey/valkey.sock?db=0"}
 
 if [ -z "$SECRET_KEY" ]; then
     echo "The SECRET_KEY variable must be defined."
