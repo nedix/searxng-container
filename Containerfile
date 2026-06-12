@@ -111,3 +111,7 @@ ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE 80/tcp
 
 VOLUME /var/lib/valkey/
+
+HEALTHCHECK \
+    --start-period=15s \
+    CMD nc -z 127.0.0.1 80
