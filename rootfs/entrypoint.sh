@@ -52,6 +52,7 @@ fi
     echo "$SEARCH_ON_CATEGORY_SELECT" > /run/searxng-configure/environment/SEARCH_ON_CATEGORY_SELECT
     echo "$SECRET_KEY"                > /run/searxng-configure/environment/SECRET_KEY
     echo "$URL_FORMATTING"            > /run/searxng-configure/environment/URL_FORMATTING
+    echo "$VALKEY_URL"                > /run/searxng-configure/environment/VALKEY_URL
 }
 
 # -------------------------------------------------------------------------------
