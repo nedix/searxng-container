@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
 exec /usr/bin/valkey-server \
-    /etc/valkey/valkey.conf \
-    --port 6379 \
-    --protected-mode no
+    --bind 127.0.0.1 \
+    --port 6379

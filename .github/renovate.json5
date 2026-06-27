@@ -35,6 +35,13 @@
       packageNameTemplate: "traefik/traefik",
     },
     {
+      depNameTemplate: "Valkey",
+      fileMatch: ["^Containerfile$"],
+      matchStrings: ["ARG VALKEY_VERSION=(?<currentValue>.*?)\\n"],
+      datasourceTemplate: "github-releases",
+      packageNameTemplate: "valkey-io/valkey",
+    },
+    {
       depNameTemplate: "YQ",
       fileMatch: ["^Containerfile$"],
       matchStrings: ["ARG YQ_VERSION=(?<currentValue>.*?)\\n"],

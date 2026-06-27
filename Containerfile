@@ -3,6 +3,7 @@ ARG PYTHON_VERSION=3.12
 ARG S6_OVERLAY_VERSION=3.2.2.0
 ARG SEARXNG_VERSION=f8ffbf36f9039ecb232dcfab5263b02b36fed9f5
 ARG TRAEFIK_VERSION=3.7.5
+ARG VALKEY_VERSION=9.1.0
 ARG YQ_VERSION=4.53.3
 
 FROM ghcr.io/nedix/alpine-base-container:${ALPINE_VERSION} AS base
@@ -88,19 +89,20 @@ RUN case "$(uname -m)" in \
     | tar xzOf - "./yq_linux_${YQ_ARCHITECTURE}" > yq \
     && chmod +x yq
 
+FROM valkey/valkey:${VALKEY_VERSION}-alpine AS valkey
+
 FROM base
 
 ARG PYTHON_VERSION
 
 RUN apk add \
-        "python${PYTHON_VERSION%.*}~${PYTHON_VERSION}" \
-        valkey \
-        valkey-cli
+        "python${PYTHON_VERSION%.*}~${PYTHON_VERSION}"
 
 COPY --link --from=searxng "/root/.local/lib/python${PYTHON_VERSION}/site-packages/" "/usr/lib/python${PYTHON_VERSION}/site-packages/"
 COPY --link --from=searxng /build/searxng/ /usr/local/searxng/
 COPY --link --from=searxng /root/.local/bin/granian /usr/bin/
 COPY --link --from=traefik /build/traefik/traefik /usr/bin/
+COPY --link --from=valkey /usr/local/bin/valkey-server /usr/bin/
 COPY --link --from=yq /build/yq/yq /usr/bin/
 
 COPY --link /rootfs/ /

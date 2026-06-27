@@ -18,7 +18,7 @@
 : ${SEARCH_ON_CATEGORY_SELECT:="true"}
 : ${SECRET_KEY}
 : ${URL_FORMATTING:="full"}
-: ${VALKEY_URL:="unix:///run/valkey/valkey.sock?db=0"}
+: ${VALKEY_URL:="valkey://127.0.0.1:6379"}
 
 if [ -z "$SECRET_KEY" ]; then
     echo "The SECRET_KEY variable must be defined."
