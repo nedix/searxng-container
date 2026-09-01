@@ -7,7 +7,7 @@
 : ${DEFAULT_LOCALE:="en"}
 : ${DEFAULT_THEME:="simple"}
 : ${ENABLE_METRICS:="true"}
-: ${ENGINES:="bitchute,duckduckgo,duckduckgo images,duckduckgo videos,mojeek,mojeek images,odysee,startpage,startpage images,youtube"}
+: ${ENGINES:="bing,bing images,bitchute,duckduckgo images,duckduckgo videos,google cse,google cse images,odysee,youtube"}
 : ${FORMATS:="html"}
 : ${IMAGE_PROXY:="true"}
 : ${PLUGINS:="oa_doi_rewrite,tracker_url_remover"}
