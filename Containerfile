@@ -29,8 +29,6 @@ RUN apk add \
     | tar -xpJf- -C / \
     && apk del .build-deps
 
-ENV PATH="~/.local/bin:${PATH}"
-
 FROM base AS build-base
 
 ARG PYTHON_VERSION
@@ -77,9 +75,7 @@ WORKDIR /build/yq/
 ARG YQ_VERSION
 
 RUN case "$(uname -m)" in \
-        aarch64) \
-            YQ_ARCHITECTURE="arm64" \
-        ;; arm*) \
+        aarch64|arm*) \
             YQ_ARCHITECTURE="arm64" \
         ;; x86_64) \
             YQ_ARCHITECTURE="amd64" \
