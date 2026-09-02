@@ -101,7 +101,7 @@ COPY --link --from=traefik /build/traefik/traefik /usr/bin/
 COPY --link --from=valkey /usr/local/bin/valkey-server /usr/bin/
 COPY --link --from=yq /build/yq/yq /usr/bin/
 
-COPY --link /rootfs/ /
+COPY /rootfs/ /
 
 ENTRYPOINT ["/entrypoint.sh"]
 
