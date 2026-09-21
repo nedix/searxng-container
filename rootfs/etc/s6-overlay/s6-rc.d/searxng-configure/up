@@ -31,22 +31,21 @@
 {
     yq -i ".general.debug = env(DEBUG)"                                    /etc/searxng/settings.yml
     yq -i ".general.enable_metrics = env(ENABLE_METRICS)"                  /etc/searxng/settings.yml
-    yq -i ".plugins[].active = false"                                      /usr/local/searxng/searx/settings.yml
-    yq -i ".search.autocomplete = env(AUTOCOMPLETE)"                       /etc/searxng/settings.yml
-    yq -i ".search.default_lang = env(DEFAULT_LANGUAGE)"                   /etc/searxng/settings.yml
     yq -i ".search.safe_search = env(SAFE_SEARCH)"                         /etc/searxng/settings.yml
     yq -i ".server.image_proxy = env(IMAGE_PROXY)"                         /etc/searxng/settings.yml
     yq -i ".server.public_instance = env(PUBLIC_INSTANCE)"                 /etc/searxng/settings.yml
-    yq -i ".ui.default_locale = env(DEFAULT_LOCALE)"                       /etc/searxng/settings.yml
     yq -i ".ui.default_theme = env(DEFAULT_THEME)"                         /etc/searxng/settings.yml
     yq -i ".ui.query_in_title = env(QUERY_IN_TITLE)"                       /etc/searxng/settings.yml
     yq -i ".ui.search_on_category_select = env(SEARCH_ON_CATEGORY_SELECT)" /etc/searxng/settings.yml
-    yq -i ".ui.url_formatting = env(URL_FORMATTING)"                       /etc/searxng/settings.yml
     yq -i ".valkey.url = env(VALKEY_URL)"                                  /etc/searxng/settings.yml
 }
 
 if [ -f /usr/local/searxng/searx/infopage/en/donate.md ]; then
     yq -i ".general.donation_url = true"  /etc/searxng/settings.yml
+fi
+
+if [ -n "$AUTOCOMPLETE" ]; then
+    yq -i ".search.autocomplete = env(AUTOCOMPLETE)" /etc/searxng/settings.yml
 fi
 
 if [ -n "$CATEGORIES_AS_TABS" ]; then
@@ -58,6 +57,14 @@ if [ -n "$CATEGORIES_AS_TABS" ]; then
         ) as $category
         | .categories_as_tabs[$category[]] = ~
     ' /etc/searxng/settings.yml
+fi
+
+if [ -n "$DEFAULT_LANGUAGE" ]; then
+    yq -i ".search.default_lang = env(DEFAULT_LANGUAGE)" /etc/searxng/settings.yml
+fi
+
+if [ -n "$DEFAULT_LOCALE" ]; then
+    yq -i ".ui.default_locale = env(DEFAULT_LOCALE)" /etc/searxng/settings.yml
 fi
 
 if [ -n "$ENGINES" ]; then
@@ -83,6 +90,8 @@ if [ -n "$FORMATS" ]; then
 fi
 
 if [ -n "$PLUGINS" ]; then
+    yq -i ".plugins[].active = false" /usr/local/searxng/searx/settings.yml
+
     yq -i '.plugins = {}
         | (
             strenv(PLUGINS)
@@ -100,6 +109,10 @@ if [ -n "$PREFERENCES_LOCK" ]; then
         | split(",")
         | map(trim)
     ) ' /etc/searxng/settings.yml
+fi
+
+if [ -n "$URL_FORMATTING" ]; then
+    yq -i ".ui.url_formatting = env(URL_FORMATTING)" /etc/searxng/settings.yml
 fi
 
 sed -E "s|: ~$|:|" -i /etc/searxng/settings.yml

@@ -1,23 +1,23 @@
 #!/usr/bin/env sh
 
-: ${AUTOCOMPLETE:="qwant"}
-: ${CATEGORIES_AS_TABS:="general,images,videos"}
+: ${AUTOCOMPLETE}
+: ${CATEGORIES_AS_TABS}
 : ${DEBUG:="false"}
-: ${DEFAULT_LANGUAGE:="en-US"}
-: ${DEFAULT_LOCALE:="en"}
+: ${DEFAULT_LANGUAGE}
+: ${DEFAULT_LOCALE}
 : ${DEFAULT_THEME:="simple"}
 : ${ENABLE_METRICS:="true"}
-: ${ENGINES:="brave,duckduckgo,google,mojeek,yahoo,brave.images,duckduckgo images, google images,mojeek images,brave.videos,dailymotion,duckduckgo videos,peertube,qwant videos,rumble,youtube"}
-: ${FORMATS:="html"}
+: ${ENGINES}
+: ${FORMATS}
 : ${IMAGE_PROXY:="true"}
-: ${PLUGINS:="oa_doi_rewrite,tracker_url_remover"}
-: ${PREFERENCES_LOCK:="language"}
+: ${PLUGINS}
+: ${PREFERENCES_LOCK}
 : ${PUBLIC_INSTANCE:="true"}
 : ${QUERY_IN_TITLE:="true"}
 : ${SAFE_SEARCH:="2"}
 : ${SEARCH_ON_CATEGORY_SELECT:="true"}
 : ${SECRET_KEY}
-: ${URL_FORMATTING:="full"}
+: ${URL_FORMATTING}
 : ${VALKEY_URL:="valkey://127.0.0.1:6379"}
 
 if [ -z "$SECRET_KEY" ]; then
