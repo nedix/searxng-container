@@ -2,3 +2,7 @@ use_default_settings: true
 
 search:
   autocomplete_min: 2
+
+engines:
+  - name: youtube
+    categories: [videos]
