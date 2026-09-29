@@ -92,7 +92,8 @@ FROM base
 ARG PYTHON_VERSION
 
 RUN apk add \
-        "python${PYTHON_VERSION%.*}~${PYTHON_VERSION}"
+        "python${PYTHON_VERSION%.*}~${PYTHON_VERSION}" \
+        tzdata
 
 COPY --link --from=searxng "/root/.local/lib/python${PYTHON_VERSION}/site-packages/" "/usr/lib/python${PYTHON_VERSION}/site-packages/"
 COPY --link --from=searxng /build/searxng/ /usr/local/searxng/
